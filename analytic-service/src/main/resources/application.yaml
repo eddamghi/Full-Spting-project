@@ -1,0 +1,25 @@
+server:
+  port: ${PORT:9004}
+spring:
+  application:
+    name: analytics-service
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  kafka:
+    bootstrap-servers: localhost:9092
+    template:
+      default-topic: orderAnalyticsTopic
+    consumer:
+      group-id: analytics_group
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.type.mapping: event:eddamghi.analyticservice.event.OrderAnalyticEvent
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8081/eureka
+  instance:
+    hostname: localhost
+    prefer-ip-address: true
